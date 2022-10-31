@@ -4,11 +4,20 @@ import 'package:shared_preferences/shared_preferences.dart';
 class LocalStorage {
   static const String tokenKey = "t";
   static const String databaseListKey = "dl";
+  static const String notionDomainKey = "nd";
 
   late SharedPreferences _preferences;
 
   LocalStorage() {
     _loadPreference();
+  }
+
+  Future setNotionDomain(String domain) async {
+    await _preferences.setString(notionDomainKey, domain);
+  }
+
+  String? getNotionDomain() {
+    return _preferences.getString(notionDomainKey);
   }
 
   Future setToken(String token) async {
