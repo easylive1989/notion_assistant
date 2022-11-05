@@ -1,0 +1,22 @@
+name: Notion Assistant
+
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: subosito/flutter-action@v1
+        with:
+          channel: 'stable' # or: 'beta', 'dev' or 'master'
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 16
+      - run: cd background && npm run build
+      - run: flutter pub get
+      - run: flutter test
+      - run: flutter build web --web-renderer html --csp
