@@ -1,16 +1,13 @@
 import 'package:dio/dio.dart';
 import 'package:notion_assistant/data_model/events.dart';
 import 'package:notion_assistant/data_model/unread.dart';
-import 'package:notion_assistant/external/local_storage.dart';
 import 'package:notion_assistant/data_model/todo.dart';
 
 class NotionClient {
   final Dio _dio;
-  final LocalStorage _storage;
 
-  NotionClient(Dio dio, LocalStorage localStorage)
-      : _dio = dio,
-        _storage = localStorage;
+  NotionClient(Dio dio)
+      : _dio = dio;
 
   Future<Todos> getRecentTodos(String id) async {
     Response response = await _dio.post(
@@ -36,7 +33,6 @@ class NotionClient {
       options: Options(headers: {
         "Notion-Version": "2021-08-16",
         "Content-Type": "application/json",
-        "Authorization": "Bearer ${_storage.getToken()}",
       }),
     );
 
@@ -53,12 +49,11 @@ class NotionClient {
       options: Options(headers: {
         "Notion-Version": "2021-08-16",
         "Content-Type": "application/json",
-        "Authorization": "Bearer ${_storage.getToken()}",
       }),
     );
     return Unreads(
       unreads: response.data["results"]
-          .map<Event>((json) => Unread.fromJson(json["properties"]))
+          .map<Unread>((json) => Unread.fromJson(json["properties"]))
           .toList(),
     );
   }
@@ -69,7 +64,6 @@ class NotionClient {
       options: Options(headers: {
         "Notion-Version": "2021-08-16",
         "Content-Type": "application/json",
-        "Authorization": "Bearer ${_storage.getToken()}",
       }),
     );
     return Events(
