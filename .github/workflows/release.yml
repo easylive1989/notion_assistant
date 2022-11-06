@@ -20,6 +20,7 @@ jobs:
       - run: flutter pub get
       - run: flutter test
       - run: flutter build web --web-renderer html --csp
+      - run: dart compile js lib/background.dart -o build/web/background.js
       - run: cd build/web && zip -r release.zip *
       - name: Create Release
         id: create_release
