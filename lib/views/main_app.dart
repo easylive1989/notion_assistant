@@ -11,7 +11,7 @@ import 'package:notion_assistant/views/unreads_widget.dart';
 import 'dart:html' as html;
 
 class MyApp extends StatefulWidget {
-  const MyApp({super.key});
+  const MyApp({Key? key}) : super(key: key);
 
   @override
   State<MyApp> createState() => _MyAppState();
